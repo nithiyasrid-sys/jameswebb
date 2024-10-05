@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webb Telescope 3D Model</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        #model-container {
+            width: 800px;
+            height: 600px;
+            border: 1px solid #ddd;
+            margin: 40px auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="model-container"></div>
+
+    <script src="(link unavailable)"></script>
+    <script>
+        // Load the GLB model
+        const loader = new THREE.GLTFLoader();
+        loader.load('C:\jwst', (gltf) => {
+            const model = gltf.scene;
+            const scene = new THREE.Scene();
+            scene.add(model);
+
+            // Set up camera, renderer, and controls
+            const camera = new THREE.PerspectiveCamera(75, 800 / 600, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({
+                canvas: document.createElement('canvas'),
+                antialias: true
+            });
+            renderer.setSize(800, 600);
+            document.getElementById('model-container').appendChild(renderer.domElement);
+
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+            // Set camera position
+            camera.position.z = 5;
+
+            // Render and animate
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+        });
+    </script>
+</body>
+</html>
